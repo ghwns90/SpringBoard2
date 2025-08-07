@@ -30,19 +30,11 @@
 <body>
   <main>
 	<h2>새 메뉴 추가</h2>
-	<form action="/Menus/Write" method="POST">
+	<form action="/Menus/Write2" method="POST">
 	  <table>
-	    <tr>
-	      <td>메뉴 아이디</td>
-	      <td><input type="text" name="menu_id" maxlength="6" /></td>
-	    </tr>
 	    <tr>
 	      <td>메뉴 이름</td>
 	      <td><input type="text" name="menu_name" /></td>
-	    </tr>
-	    <tr>
-	      <td>메뉴 순서</td>
-	      <td><input type="number" name="menu_seq" /></td>
 	    </tr>
 	    <tr>	      
 	      <td colspan="2">

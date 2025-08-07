@@ -35,6 +35,11 @@ public class MenuController {
 		return "menus/write";
 	}
 	
+	@RequestMapping("/Menus/WriteForm2")
+	public String writeForm2() {
+		return "menus/write2";
+	}
+	
 	@RequestMapping("/Menus/Write")
 	public  String  write( MenuDTO menuDTO ) {
 		
@@ -42,6 +47,18 @@ public class MenuController {
 			
 		//return "menus/list";		// re.forward(request, response)
 		return   "redirect:/Menus/List";	// response.sendRedirect()
+	}
+	
+	@RequestMapping("/Menus/Write2")
+	public String write2( MenuDTO menuDTO ) {
+		
+		// menu_name 만 넘어온
+		System.out.println( menuDTO );
+		
+		// 메뉴 추가
+		menuMapper.insertMenu2(menuDTO);
+		
+		return "redirect:/Menus/List";
 	}
 	
 	//http://localhost:9090/Menus/Delete?menu_id=MENU01
@@ -54,6 +71,28 @@ public class MenuController {
 		return "redirect:/Menus/List";
 	}
 	
+	@RequestMapping("/Menus/UpdateForm")
+	public String updateForm( MenuDTO menuDTO, Model model ) {
+		
+		// 넘어온 정보(?menu_id="")로 수정할 정보를 조회
+		MenuDTO menu = menuMapper.getMenu(menuDTO);
+		System.out.println(menu);
+		// 조회한 정보를 update.jsp에 보낸다
+		model.addAttribute("menu", menu);
+		
+		return "menus/update";	//menus/update.jsp
+	}
+	
+	@RequestMapping("/Menus/Update")
+	public String update( MenuDTO menuDTO ) {
+		// 넘어온 정보 확인
+		System.out.println("넘어온 정보 : " + menuDTO);
+		
+		// 수정하러 가기
+		menuMapper.update(menuDTO);
+		
+		return "redirect:/Menus/List";
+	}
 	
 }
 

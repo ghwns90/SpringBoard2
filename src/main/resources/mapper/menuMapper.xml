@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.board.menus.mapper.MenuMapper">  
 
+<!-- 메뉴 리스트 전체 select -->
   <select id="getMenuList"  
           resultType = "com.board.menus.domain.MenuDTO" >
   
@@ -10,7 +11,7 @@
       ORDER  BY  MENU_SEQ ASC
   
   </select>
-
+<!-- 메뉴 insert -->
   <insert id="insertMenu">
    
    INSERT INTO  MENUS 
@@ -27,9 +28,44 @@
    )   
    
   </insert> 
+<!-- 메뉴 insert2 -->  
+  <insert id = "insertMenu2">
+  	INSERT INTO MENUS
+  	(
+  		MENU_ID,
+  		MENU_NAME,
+  		MENU_SEQ
+  	)
+  	VALUES
+  	(
+  		(
+  			SELECT 'MENU'||TRIM(TO_CHAR(NVL(SUBSTR(MAX(MENU_ID), 5, 2), 0) + 1 , '00')) FROM MENUS
+  		),
+  		#{ menu_name },
+  		(
+  			SELECT NVL(MAX(MENU_SEQ), 0) + 1 FROM MENUS
+  		)
+  	)
+  </insert>
   
+<!-- 메뉴 delete -->  
   <delete id = "deleteMenu">
   	DELETE FROM MENUS WHERE menu_id = #{ menu_id }
   </delete>
+  
+<!-- 메뉴 1개 select -->  
+  <select id = "getMenu" resultType = "com.board.menus.domain.MenuDTO">
+  	SELECT MENU_ID, MENU_NAME, MENU_SEQ FROM MENUS WHERE MENU_ID = #{ menu_id }
+  </select>
+
+<!-- 메뉴 수정 update -->  
+  <update id = "update">
+  	UPDATE MENUS
+  	SET	   MENU_NAME = #{ menu_name },
+  		   MENU_SEQ  = #{ menu_seq }
+  	WHERE  MENU_ID = #{ menu_id }
+  </update>
+  
+
   
 </mapper>
